@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # Setting to import files from parent directory
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Setting to import files from parent directory
 import numpy as np
 from common.layers import *
 from common.gradient import numerical_gradient

@@ -1,6 +1,8 @@
 # coding: utf-8
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
 from simple_convnet import SimpleConvNet
 
 def filter_show(filters, nx=8, margin=3, scale=10):
@@ -20,9 +22,12 @@ def filter_show(filters, nx=8, margin=3, scale=10):
 
 
 network = SimpleConvNet()
-# 随机进行初始化后的权重
+# Randomly initialized weights
 filter_show(network.params['W1'])
 
-# 学习后的权重
-network.load_params("params.pkl")
+# Weights after learning
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+params_path = os.path.join(script_dir, "params.pkl")
+network.load_params(params_path)
 filter_show(network.params['W1'])

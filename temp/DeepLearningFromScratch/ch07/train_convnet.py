@@ -1,16 +1,16 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Setting to import files from parent directory
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from simple_convnet import SimpleConvNet
 from common.trainer import Trainer
 
-# 读入数据
+# Load data
 (x_train, t_train), (x_test, t_test) = load_mnist(flatten=False)
 
-# 处理花费时间较长的情况下减少数据 
+# Reduce data when processing takes too long 
 #x_train, t_train = x_train[:5000], t_train[:5000]
 #x_test, t_test = x_test[:1000], t_test[:1000]
 
@@ -26,11 +26,11 @@ trainer = Trainer(network, x_train, t_train, x_test, t_test,
                   evaluate_sample_num_per_epoch=1000)
 trainer.train()
 
-# 保存参数
+# Save parameters
 network.save_params("params.pkl")
 print("Saved Network Parameters!")
 
-# 绘制图形
+# Plot graph
 markers = {'train': 'o', 'test': 's'}
 x = np.arange(max_epochs)
 plt.plot(x, trainer.train_acc_list, marker='o', label='train', markevery=2)

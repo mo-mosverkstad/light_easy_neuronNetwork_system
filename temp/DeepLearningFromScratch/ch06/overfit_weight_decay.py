@@ -2,7 +2,7 @@
 import os
 import sys
 
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.pardir)  # Setting to import files from parent directory
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
@@ -11,12 +11,12 @@ from common.optimizer import SGD
 
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
 
-# 为了再现过拟合，减少学习数据
+# To reproduce overfitting, reduce learning data
 x_train = x_train[:300]
 t_train = t_train[:300]
 
-# weight decay（权值衰减）的设定 =======================
-#weight_decay_lambda = 0 # 不使用权值衰减的情况
+# weight decay setting =======================
+#weight_decay_lambda = 0 # When not using weight decay
 weight_decay_lambda = 0.1
 # ====================================================
 
@@ -56,7 +56,7 @@ for i in range(1000000000):
             break
 
 
-# 3.绘制图形==========
+# 3. Plot graph==========
 markers = {'train': 'o', 'test': 's'}
 x = np.arange(max_epochs)
 plt.plot(x, train_acc_list, marker='o', label='train', markevery=10)

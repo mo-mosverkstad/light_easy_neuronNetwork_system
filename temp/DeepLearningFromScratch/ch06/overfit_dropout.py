@@ -1,7 +1,7 @@
 # coding: utf-8
 import os
 import sys
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.pardir)  # Setting to import files from parent directory
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
@@ -10,12 +10,12 @@ from common.trainer import Trainer
 
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
 
-# 为了再现过拟合，减少学习数据
+# To reproduce overfitting, reduce learning data
 x_train = x_train[:300]
 t_train = t_train[:300]
 
-# 设定是否使用Dropuout，以及比例 ========================
-use_dropout = True  # 不使用Dropout的情况下为False
+# Set whether to use Dropout and the ratio ========================
+use_dropout = True  # Set to False when not using Dropout
 dropout_ratio = 0.2
 # ====================================================
 
@@ -28,7 +28,7 @@ trainer.train()
 
 train_acc_list, test_acc_list = trainer.train_acc_list, trainer.test_acc_list
 
-# 绘制图形==========
+# Plot graph==========
 markers = {'train': 'o', 'test': 's'}
 x = np.arange(len(train_acc_list))
 plt.plot(x, train_acc_list, marker='o', label='train', markevery=10)

@@ -3,9 +3,9 @@ import numpy as np
 
 
 def smooth_curve(x):
-    """用于使损失函数的图形变圆滑
+    """Used to smooth the loss function graph
 
-    参考：http://glowingpython.blogspot.jp/2012/02/convolution-with-numpy.html
+    Reference: http://glowingpython.blogspot.jp/2012/02/convolution-with-numpy.html
     """
     window_len = 11
     s = np.r_[x[window_len-1:0:-1], x, x[-1:-window_len:-1]]
@@ -15,16 +15,16 @@ def smooth_curve(x):
 
 
 def shuffle_dataset(x, t):
-    """打乱数据集
+    """Shuffle dataset
 
     Parameters
     ----------
-    x : 训练数据
-    t : 监督数据
+    x : Training data
+    t : Supervised data
 
     Returns
     -------
-    x, t : 打乱的训练数据和监督数据
+    x, t : Shuffled training data and supervised data
     """
     permutation = np.random.permutation(x.shape[0])
     x = x[permutation,:] if x.ndim == 2 else x[permutation,:,:,:]
@@ -41,15 +41,15 @@ def im2col(input_data, filter_h, filter_w, stride=1, pad=0):
 
     Parameters
     ----------
-    input_data : 由(数据量, 通道, 高, 长)的4维数组构成的输入数据
-    filter_h : 滤波器的高
-    filter_w : 滤波器的长
-    stride : 步幅
-    pad : 填充
+    input_data : Input data consisting of 4D array (data_count, channel, height, width)
+    filter_h : Filter height
+    filter_w : Filter width
+    stride : Stride
+    pad : Padding
 
     Returns
     -------
-    col : 2维数组
+    col : 2D array
     """
     N, C, H, W = input_data.shape
     out_h = (H + 2*pad - filter_h)//stride + 1
@@ -74,7 +74,7 @@ def col2im(col, input_shape, filter_h, filter_w, stride=1, pad=0):
     Parameters
     ----------
     col :
-    input_shape : 输入数据的形状（例：(10, 1, 28, 28)）
+    input_shape : Input data shape (e.g.: (10, 1, 28, 28))
     filter_h :
     filter_w
     stride

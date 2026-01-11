@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 为了导入父目录而进行的设定
+sys.path.append(os.pardir)  # Setting to import parent directory
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
@@ -16,6 +16,6 @@ trainer = Trainer(network, x_train, t_train, x_test, t_test,
                   evaluate_sample_num_per_epoch=1000)
 trainer.train()
 
-# 保存参数
+# Save parameters
 network.save_params("deep_convnet_params.pkl")
 print("Saved Network Parameters!")

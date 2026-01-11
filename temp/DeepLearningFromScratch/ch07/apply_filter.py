@@ -1,8 +1,10 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.pardir)  # Setting to import files from parent directory
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
 from simple_convnet import SimpleConvNet
 from matplotlib.image import imread
 from common.layers import Convolution
@@ -26,12 +28,14 @@ network = SimpleConvNet(input_dim=(1,28,28),
                         conv_param = {'filter_num':30, 'filter_size':5, 'pad':0, 'stride':1},
                         hidden_size=100, output_size=10, weight_init_std=0.01)
 
-# 学习后的权重
+# Weights after learning
 network.load_params("params.pkl")
 
 filter_show(network.params['W1'], 16)
 
-img = imread('../dataset/lena_gray.png')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(os.path.dirname(script_dir), 'dataset', 'lena_gray.png')
+img = imread(img_path)
 img = img.reshape(1, 1, *img.shape)
 
 fig = plt.figure()

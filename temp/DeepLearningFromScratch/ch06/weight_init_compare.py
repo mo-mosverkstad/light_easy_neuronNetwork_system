@@ -1,8 +1,7 @@
 # coding: utf-8
 import os
 import sys
-
-sys.path.append(os.pardir)  # Setting to import files from parent directory
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Setting to import files from parent directory
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist

@@ -1,11 +1,11 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.pardir)  # Setting to import files from parent directory
 import numpy as np
 from common.optimizer import *
 
 class Trainer:
-    """进行神经网络的训练的类
+    """Class for training neural networks
     """
     def __init__(self, network, x_train, t_train, x_test, t_test,
                  epochs=20, mini_batch_size=100,

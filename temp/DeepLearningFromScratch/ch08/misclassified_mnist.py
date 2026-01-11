@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 为了导入父目录而进行的设定
+sys.path.append(os.pardir)  # Setting to import parent directory
 import numpy as np
 import matplotlib.pyplot as plt
 from deep_convnet import DeepConvNet

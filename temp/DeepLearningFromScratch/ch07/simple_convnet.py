@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Setting to import files from parent directory
 import pickle
 import numpy as np
 from collections import OrderedDict
@@ -9,19 +9,19 @@ from common.gradient import numerical_gradient
 
 
 class SimpleConvNet:
-    """简单的ConvNet
+    """Simple ConvNet
 
     conv - relu - pool - affine - relu - affine - softmax
     
     Parameters
     ----------
-    input_size : 输入大小（MNIST的情况下为784）
-    hidden_size_list : 隐藏层的神经元数量的列表（e.g. [100, 100, 100]）
-    output_size : 输出大小（MNIST的情况下为10）
+    input_size : Input size (784 for MNIST)
+    hidden_size_list : List of neuron counts in hidden layers (e.g. [100, 100, 100])
+    output_size : Output size (10 for MNIST)
     activation : 'relu' or 'sigmoid'
-    weight_init_std : 指定权重的标准差（e.g. 0.01）
-        指定'relu'或'he'的情况下设定“He的初始值”
-        指定'sigmoid'或'xavier'的情况下设定“Xavier的初始值”
+    weight_init_std : Standard deviation for weight specification (e.g. 0.01)
+        Set "He initialization" when specifying 'relu' or 'he'
+        Set "Xavier initialization" when specifying 'sigmoid' or 'xavier'
     """
     def __init__(self, input_dim=(1, 28, 28), 
                  conv_param={'filter_num':30, 'filter_size':5, 'pad':0, 'stride':1},
@@ -34,7 +34,7 @@ class SimpleConvNet:
         conv_output_size = (input_size - filter_size + 2*filter_pad) / filter_stride + 1
         pool_output_size = int(filter_num * (conv_output_size/2) * (conv_output_size/2))
 
-        # 初始化权重
+        # Initialize weights
         self.params = {}
         self.params['W1'] = weight_init_std * \
                             np.random.randn(filter_num, input_dim[0], filter_size, filter_size)
@@ -46,7 +46,7 @@ class SimpleConvNet:
                             np.random.randn(hidden_size, output_size)
         self.params['b3'] = np.zeros(output_size)
 
-        # 生成层
+        # Generate layers
         self.layers = OrderedDict()
         self.layers['Conv1'] = Convolution(self.params['W1'], self.params['b1'],
                                            conv_param['stride'], conv_param['pad'])
@@ -65,8 +65,8 @@ class SimpleConvNet:
         return x
 
     def loss(self, x, t):
-        """求损失函数
-        参数x是输入数据、t是教师标签
+        """Calculate loss function
+        Parameter x is input data, t is teacher labels
         """
         y = self.predict(x)
         return self.last_layer.forward(y, t)
@@ -86,18 +86,18 @@ class SimpleConvNet:
         return acc / x.shape[0]
 
     def numerical_gradient(self, x, t):
-        """求梯度（数值微分）
+        """Calculate gradient (numerical differentiation)
 
         Parameters
         ----------
-        x : 输入数据
-        t : 教师标签
+        x : Input data
+        t : Teacher labels
 
         Returns
         -------
-        具有各层的梯度的字典变量
-            grads['W1']、grads['W2']、...是各层的权重
-            grads['b1']、grads['b2']、...是各层的偏置
+        Dictionary variable with gradients of each layer
+            grads['W1'], grads['W2'], ... are weights of each layer
+            grads['b1'], grads['b2'], ... are biases of each layer
         """
         loss_w = lambda w: self.loss(x, t)
 
@@ -109,18 +109,18 @@ class SimpleConvNet:
         return grads
 
     def gradient(self, x, t):
-        """求梯度（误差反向传播法）
+        """Calculate gradient (error backpropagation)
 
         Parameters
         ----------
-        x : 输入数据
-        t : 教师标签
+        x : Input data
+        t : Teacher labels
 
         Returns
         -------
-        具有各层的梯度的字典变量
-            grads['W1']、grads['W2']、...是各层的权重
-            grads['b1']、grads['b2']、...是各层的偏置
+        Dictionary variable with gradients of each layer
+            grads['W1'], grads['W2'], ... are weights of each layer
+            grads['b1'], grads['b2'], ... are biases of each layer
         """
         # forward
         self.loss(x, t)
@@ -134,7 +134,7 @@ class SimpleConvNet:
         for layer in layers:
             dout = layer.backward(dout)
 
-        # 设定
+        # Setting
         grads = {}
         grads['W1'], grads['b1'] = self.layers['Conv1'].dW, self.layers['Conv1'].db
         grads['W2'], grads['b2'] = self.layers['Affine1'].dW, self.layers['Affine1'].db
@@ -150,6 +150,9 @@ class SimpleConvNet:
             pickle.dump(params, f)
 
     def load_params(self, file_name="params.pkl"):
+        if not os.path.isabs(file_name):
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            file_name = os.path.join(script_dir, file_name)
         with open(file_name, 'rb') as f:
             params = pickle.load(f)
         for key, val in params.items():
