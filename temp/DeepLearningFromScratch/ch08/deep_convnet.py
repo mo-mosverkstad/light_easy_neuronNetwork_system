@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # Setting to import files from parent directory
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) # Setting to import files from parent directory
 import pickle
 import numpy as np
 from collections import OrderedDict
@@ -126,6 +126,9 @@ class DeepConvNet:
             pickle.dump(params, f)
 
     def load_params(self, file_name="params.pkl"):
+        if not os.path.isabs(file_name):
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            file_name = os.path.join(script_dir, file_name)
         with open(file_name, 'rb') as f:
             params = pickle.load(f)
         for key, val in params.items():
