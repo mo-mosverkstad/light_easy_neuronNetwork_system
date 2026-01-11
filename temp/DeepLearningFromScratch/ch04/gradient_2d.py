@@ -18,7 +18,7 @@ def _numerical_gradient_no_batch(f, x):
         fxh2 = f(x) # f(x-h)
         grad[idx] = (fxh1 - fxh2) / (2*h)
         
-        x[idx] = tmp_val # 还原值
+        x[idx] = tmp_val # restore value
         
     return grad
 
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     grad = numerical_gradient(function_2, np.array([X, Y]).T)
     
     plt.figure()
-    plt.quiver(X, Y, -grad[0], -grad[1],  angles="xy",color="#666666")#,headwidth=10,scale=40,color="#444444")
+    plt.quiver(X, Y, -grad[:, 0], -grad[:, 1],  angles="xy",color="#666666")#,headwidth=10,scale=40,color="#444444")
     plt.xlim([-2, 2])
     plt.ylim([-2, 2])
     plt.xlabel('x0')

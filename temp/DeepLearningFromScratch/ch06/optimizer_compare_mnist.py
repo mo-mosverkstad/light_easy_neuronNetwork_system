@@ -1,7 +1,7 @@
 # coding: utf-8
 import os
 import sys
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.pardir)  # Setting to import files from parent directory
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from common.util import smooth_curve
@@ -9,7 +9,7 @@ from common.multi_layer_net import MultiLayerNet
 from common.optimizer import *
 
 
-# 0:读入MNIST数据==========
+# 0: Load MNIST data==========
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
 
 train_size = x_train.shape[0]
@@ -17,7 +17,7 @@ batch_size = 128
 max_iterations = 2000
 
 
-# 1:进行实验的设置==========
+# 1: Experimental setup==========
 optimizers = {}
 optimizers['SGD'] = SGD()
 optimizers['Momentum'] = Momentum()
@@ -34,7 +34,7 @@ for key in optimizers.keys():
     train_loss[key] = []    
 
 
-# 2:开始训练==========
+# 2: Start training==========
 for i in range(max_iterations):
     batch_mask = np.random.choice(train_size, batch_size)
     x_batch = x_train[batch_mask]
@@ -54,7 +54,7 @@ for i in range(max_iterations):
             print(key + ":" + str(loss))
 
 
-# 3.绘制图形==========
+# 3. Plot graph==========
 markers = {"SGD": "o", "Momentum": "x", "AdaGrad": "s", "Adam": "D"}
 x = np.arange(max_iterations)
 for key in optimizers.keys():
