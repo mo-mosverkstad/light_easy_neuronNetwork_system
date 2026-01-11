@@ -1,8 +1,10 @@
 # coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pickle
+import warnings
+warnings.filterwarnings('ignore')
 from dataset.mnist import load_mnist
 from common.functions import sigmoid, softmax
 
@@ -13,7 +15,9 @@ def get_data():
 
 
 def init_network():
-    with open("sample_weight.pkl", 'rb') as f:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    pkl_path = os.path.join(script_dir, "sample_weight.pkl")
+    with open(pkl_path, 'rb') as f:
         network = pickle.load(f)
     return network
 
@@ -35,7 +39,7 @@ def predict(network, x):
 x, t = get_data()
 network = init_network()
 
-batch_size = 100 # 批数量
+batch_size = 100 # batch size
 accuracy_cnt = 0
 
 for i in range(0, len(x), batch_size):

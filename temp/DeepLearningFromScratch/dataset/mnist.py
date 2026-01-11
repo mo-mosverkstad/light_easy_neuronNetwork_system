@@ -88,19 +88,19 @@ def _change_one_hot_label(X):
     
 
 def load_mnist(normalize=True, flatten=True, one_hot_label=False):
-    """读入MNIST数据集
+    """Load MNIST dataset
     
     Parameters
     ----------
-    normalize : 将图像的像素值正规化为0.0~1.0
+    normalize : Normalize image pixel values to 0.0~1.0
     one_hot_label : 
-        one_hot_label为True的情况下，标签作为one-hot数组返回
-        one-hot数组是指[0,0,1,0,0,0,0,0,0,0]这样的数组
-    flatten : 是否将图像展开为一维数组
+        When one_hot_label is True, labels are returned as one-hot arrays
+        one-hot array refers to arrays like [0,0,1,0,0,0,0,0,0,0]
+    flatten : Whether to flatten images to 1D arrays
     
     Returns
     -------
-    (训练图像, 训练标签), (测试图像, 测试标签)
+    (training images, training labels), (test images, test labels)
     """
     if not os.path.exists(save_file):
         init_mnist()

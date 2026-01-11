@@ -7,7 +7,7 @@ def identity_function(x):
 
 
 def step_function(x):
-    return np.array(x > 0, dtype=np.int)
+    return np.array(x > 0, dtype=int)
 
 
 def sigmoid(x):
@@ -35,7 +35,7 @@ def softmax(x):
         y = np.exp(x) / np.sum(np.exp(x), axis=0)
         return y.T 
 
-    x = x - np.max(x) # 溢出对策
+    x = x - np.max(x) # overflow countermeasure
     return np.exp(x) / np.sum(np.exp(x))
 
 
@@ -48,7 +48,7 @@ def cross_entropy_error(y, t):
         t = t.reshape(1, t.size)
         y = y.reshape(1, y.size)
         
-    # 监督数据是one-hot-vector的情况下，转换为正确解标签的索引
+    # When supervised data is one-hot-vector, convert to correct label index
     if t.size == y.size:
         t = t.argmax(axis=1)
              
