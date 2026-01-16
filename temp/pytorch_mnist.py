@@ -4,10 +4,10 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
-# 1) 数据与加载器
+# 1) Data and loaders
 transform = transforms.Compose([
     transforms.ToTensor(),                 # [0,1]
-    transforms.Normalize((0.1307,), (0.3081,))  # MNIST 均值/方差
+    transforms.Normalize((0.1307,), (0.3081,))  # MNIST mean/variance
 ])
 
 train_dataset = datasets.MNIST(root="./data", train=True, download=True, transform=transform)
@@ -16,7 +16,7 @@ test_dataset  = datasets.MNIST(root="./data", train=False, download=True, transf
 train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=0)
 test_loader  = DataLoader(test_dataset, batch_size=1000, shuffle=False, num_workers=0)
 
-# 2) 模型（简单 MLP 或 CNN）
+# 2) Model (simple MLP or CNN)
 class SimpleCNN(nn.Module):
     def __init__(self):
         super().__init__()
@@ -38,11 +38,11 @@ class SimpleCNN(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = SimpleCNN().to(device)
 
-# 3) 损失与优化器
+# 3) Loss and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
-# 4) 训练函数
+# 4) Training function
 def train_one_epoch(epoch):
     model.train()
     total_loss, total_correct, total_samples = 0.0, 0, 0
@@ -63,7 +63,7 @@ def train_one_epoch(epoch):
     print(f"Epoch {epoch} | Train Loss: {total_loss/total_samples:.4f} "
           f"| Train Acc: {total_correct/total_samples:.4f}")
 
-# 5) 测试函数
+# 5) Test function
 def evaluate():
     model.eval()
     total_correct, total_samples = 0, 0
@@ -76,7 +76,7 @@ def evaluate():
             total_samples += images.size(0)
     print(f"Test Acc: {total_correct/total_samples:.4f}")
 
-# 6) 训练与评估
+# 6) Training and evaluation
 for epoch in range(1, 6):
     train_one_epoch(epoch)
     evaluate()
