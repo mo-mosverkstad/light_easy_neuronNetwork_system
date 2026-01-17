@@ -12,6 +12,7 @@ def img_show(img):
 
 def img_print(index, data, lable):
     img = data[index]
+    
     label = lable[index]
     print(label)
 
@@ -28,4 +29,4 @@ print("t_train", t_train.shape) # (60000,)
 print("x_test", x_test.shape) # (10000, 784)
 print("t_test", t_test.shape) # (10000,)
 
-img_print(10, x_train, t_train)
+img_print(50, x_train, t_train)
